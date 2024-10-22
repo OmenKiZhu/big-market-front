@@ -24,6 +24,24 @@ export const queryRaffleAwardList = (strategyId: number) => {
     }
 }
 
+export const queryRaffleAwardListByGird = (strategyId: number) => {
+    try{
+        return fetch(`${apiHostUrl}/api/v1/raffle/query_raffle_award_list_Grid?strategyId=${strategyId}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        });
+    }catch (error){
+        return fetch("{\n" +
+            "    \"code\": \"0001\",\n" +
+            "    \"info\": \"调用失败\",\n" +
+            "    \"data\": [\n" +
+            "}");
+
+    }
+}
+
 /**
  * 随机抽奖接口
  * @param strategyId 策略ID
@@ -41,6 +59,23 @@ export const queryRaffleAwardList = (strategyId: number) => {
 export const randomRaffle = (strategyId: number) => {
     try {
         return fetch(`${apiHostUrl}/api/v1/raffle/random_raffle?strategyId=${strategyId}`, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        })
+    } catch (error) {
+        return fetch("{\n" +
+            "    \"code\": \"0001\",\n" +
+            "    \"info\": \"调用失败\",\n" +
+            "    \"data\": [\n" +
+            "}");
+    }
+}
+
+export const randomRaffleByGrid = (strategyId: number) => {
+    try {
+        return fetch(`${apiHostUrl}/api/v1/raffle/random_raffle_grid?strategyId=${strategyId}`, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
