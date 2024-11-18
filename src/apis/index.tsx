@@ -1,4 +1,5 @@
 // 请求地址
+// @ts-ignore
 const apiHostUrl = process.env.API_HOST_URL ? process.env.API_HOST_URL : "https://console-mock.apipost.cn/mock/6afa907d-6678-45e2-b867-032a11090abd";
 
 /**
@@ -6,7 +7,7 @@ const apiHostUrl = process.env.API_HOST_URL ? process.env.API_HOST_URL : "https:
  * @param activityId
  */
 export const activityStrategyArmory = (activityId?: number) => {
-    return fetch(`${apiHostUrl}/api/v1/raffle/strategy_armory?activityId=${activityId}`, {
+    return fetch(`${apiHostUrl}/api/v1/raffle/activity/armory?activityId=${activityId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -16,12 +17,12 @@ export const activityStrategyArmory = (activityId?: number) => {
 
 /**
  * 查询抽奖奖品列表
- * @param userId 用户Id
- * @param activityId 活动ID
+ * @param userId 用户ID
+ * @param activityId 用户ID
  */
 export const queryRaffleAwardList = (userId?: string, activityId?: number) => {
     try {
-        return fetch(`${apiHostUrl}/api/v1/raffle/query_raffle_award_list`, {
+        return fetch(`${apiHostUrl}/api/v1/raffle/strategy/query_raffle_award_list`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,52 +42,9 @@ export const queryRaffleAwardList = (userId?: string, activityId?: number) => {
 }
 
 /**
- * 随机抽奖接口
- * @param strategyId 策略ID
- *
- * {
- * 	"code": "0000",
- * 	"info": "调用成功",
- * 	"data": {
- * 	    "awardIndex": 1, // awardIndex 获得的是列表中第几个奖品，方便测试使用
- * 		"awardId": 535,
- * 		"awardTitle": "一部手机"
- * 	}
- * }
- */
-export const randomRaffle = (strategyId?: number) => {
-    try {
-        return fetch(`${apiHostUrl}/api/v1/raffle/random_raffle`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify({
-                strategyId: strategyId
-            })
-        })
-    } catch (error) {
-        return fetch("{\n" +
-            "    \"code\": \"0001\",\n" +
-            "    \"info\": \"调用失败\",\n" +
-            "    \"data\": [\n" +
-            "}");
-    }
-}
-
-/**
  * 抽奖接口
  * @param userId 用户ID
- * @param activityId 活动ID
- * {
- * 	"code": "0000",
- * 	"info": "调用成功",
- * 	"data": {
- * 	    "awardIndex": 1, // awardIndex 获得的是列表中第几个奖品，方便测试使用
- * 		"awardId": 535,
- * 		"awardTitle": "一部手机"
- * 	}
- * }
+ * @param activityId 用户ID
  */
 export const draw = (userId?: string, activityId?: number) => {
     try {

@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react'
 // @ts-ignore
 import {LuckyWheel} from '@lucky-canvas/react'
 
-import {draw, queryRaffleAwardList, randomRaffle} from '@/apis'
+import {queryRaffleAwardList, draw} from '@/apis'
 import {RaffleAwardVO} from "@/types/RaffleAwardVO";
 
 export function LuckyWheelPage() {
@@ -50,10 +50,9 @@ export function LuckyWheelPage() {
         setPrizes(prizes)
     }
 
-    // 调用draw抽奖
+    // 调用随机抽奖
     const randomRaffleHandle = async () => {
         const queryParams = new URLSearchParams(window.location.search);
-        //const strategyId = Number(queryParams.get('strategyId'));
         const userId = String(queryParams.get('userId'));
         const activityId = Number(queryParams.get('activityId'));
         const result = await draw(userId, activityId);
