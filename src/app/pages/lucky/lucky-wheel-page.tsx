@@ -7,6 +7,7 @@ import {LuckyWheel} from '@lucky-canvas/react'
 import {queryRaffleAwardList, draw} from '@/apis'
 import {RaffleAwardVO} from "@/types/RaffleAwardVO";
 
+// @ts-ignore
 export function LuckyWheelPage() {
     const [prizes, setPrizes] = useState([{}])
     const myLucky = useRef()
@@ -42,7 +43,7 @@ export function LuckyWheelPage() {
             const background = index % 2 === 0 ? '#e9e8fe' : '#b8c5f2';
             return {
                 background: background,
-                fonts: [{id: award.awardId, text: award.awardTitle, top: '15px'}]
+                fonts: [{id: award.awardId, text: award.awardTitle, top: '15px', fontSize: "14px"}]
             };
         });
 

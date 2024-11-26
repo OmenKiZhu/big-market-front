@@ -1,9 +1,12 @@
 /**
  * 策略奖品值对象
  */
-export interface RaffleAwardVO{
+export interface RaffleAwardVO {
     awardId: number;
     awardTitle: string;
     awardSubtitle: string;
-    awardIndex: number;
+    sort: number;
+    awardRuleLockCount: number;
+    isAwardUnlock: boolean;
+    waitUnLockCount: number;
 }

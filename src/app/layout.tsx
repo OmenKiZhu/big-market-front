@@ -5,18 +5,18 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'OmenKi-raffle',
-  description: '仿京东抽奖',
+    title: '小傅哥 - 抽奖 - 大营销平台展示',
+    description: '星球「码农会锁」第8个实战项目',
 }
 
 export default function RootLayout({
-                                     children,
+                                       children,
                                    }: {
-  children: React.ReactNode
+    children: React.ReactNode
 }) {
-  return (
-      <html lang="en">
-      <body className={inter.className}>{children}</body>
-      </html>
-  )
+    return (
+        <html lang="en">
+        <body className={inter.className}>{children}</body>
+        </html>
+    )
 }
