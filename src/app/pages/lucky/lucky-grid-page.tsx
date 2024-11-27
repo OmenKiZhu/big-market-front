@@ -5,7 +5,6 @@ import React, {useState, useRef, useEffect, useContext} from 'react'
 import {LuckyGrid} from '@lucky-canvas/react'
 import {draw, queryRaffleAwardList} from "@/apis";
 import {RaffleAwardVO} from "@/types/RaffleAwardVO";
-
 /**
  * 大转盘文档：https://100px.net/docs/grid.html
  * @constructor

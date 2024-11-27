@@ -4,6 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { LuckyWheelPage } from "@/app/pages/lucky/lucky-wheel-page";
 import { LuckyGridPage } from "@/app/pages/lucky/lucky-grid-page";
 import dynamic from "next/dynamic";
+import './SnowEffect/music/music.css'
+
+
 
 const StrategyArmoryButton = dynamic(async () => (await import("./components/StrategyArmory")).StrategyArmory);
 const ActivityAccountButton = dynamic(async () => (await import("./components/ActivityAccount")).ActivityAccount);
@@ -14,11 +17,13 @@ export default function Home() {
     const [refresh, setRefresh] = useState(0);
     const snowContainerRef = useRef<HTMLDivElement>(null);
     const [snowflakes, setSnowflakes] = useState([]); // 声明状态变量和更新函数
+    const [isPlaying, setIsPlaying] = useState(false); // 控制音乐播放状态
     const handleRefresh = () => {
         setRefresh(refresh + 1);
     };
+
     // 设置每秒生成雪花的数量
-    const flakesPerSecond = 30; // 每秒生成30个雪花
+    const flakesPerSecond = 10; // 每秒生成30个雪花
     const intervalTime = 1000 / flakesPerSecond; // 计算生成间隔（毫秒）
 
     // 使用 useLayoutEffect 确保在浏览器绘制前执行
@@ -59,6 +64,7 @@ export default function Home() {
         return () => clearInterval(intervalId);
     }, [intervalTime]);
 
+
     // 清除旧的雪花
     useEffect(() => {
         const removeOldSnowflakes = () => {
@@ -78,16 +84,66 @@ export default function Home() {
         return () => clearInterval(cleanupIntervalId);
     }, [snowflakes]);
 
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    const handlePlayPause = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                console.log("music is playing");
+                audioRef.current.pause();
+                setIsPlaying(false);
+            } else {
+                audioRef.current.play().catch(error => {
+                    console.error("Error attempting to play", error);
+                });
+                setIsPlaying(true);
+            }
+        }
+    };
+
+    useEffect(() => {
+        // 确保音频元素在组件挂载时被正确引用
+        if (audioRef.current) {
+            console.log('Audio element is ready:', audioRef.current);
+        }
+    }, []);
+
+
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#e7305e]" style={{ backgroundImage: "url('/background.svg')" }}>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-[#e7305e]"
+             style={{backgroundImage: "url('/background.svg')"}}
+        >
+
+            {/* 音乐播放控件 */}
+            <div className="absolute right-4 top-4">
+                <button
+                    onClick={handlePlayPause}
+                    className={`play-pause-button ${isPlaying ? 'bg-blue-500' : 'bg-white'}`}
+                >
+                    {isPlaying ? 'Pause' : 'Play'} Music
+                </button>
+            </div>
+
+            {/* 音频元素 */}
+            <audio
+                ref={audioRef}
+                src="/SantaTellMe.mp3"
+                autoPlay
+                loop
+                //muted
+                style={{ display: 'none' }}
+            />
+
+
             {/* 头部文案 */}
-            <div ref={snowContainerRef} className="snow-container relative w-full h-auto">
+            <div ref={snowContainerRef} className="snow-container relative" style={{width: '50%'}}>
                 <header className="text-5xl font-bold text-center my-8" style={{
                     background: "linear-gradient(90deg, #ffcccc, #ffe5cc, #ffffff, #ccffcc, #ccffff, #ccccff, #ffccff)",
-                    WebkitBackgroundClip: 'text', // 添加前缀以提高兼容性
+                    WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent', // 确保文本填充色是透明的
-                    textFillColor: 'transparent' // 标准语法
+                    WebkitTextFillColor: 'transparent',
+                    textFillColor: 'transparent'
                 }}>
                     OmenKi - Raffle - BigMarket
                 </header>
@@ -95,36 +151,38 @@ export default function Home() {
 
             <div className="flex items-center space-x-4">
                 {/* 装配抽奖 */}
-                <StrategyArmoryButton />
+                <StrategyArmoryButton/>
 
                 {/* 账户额度 */}
-                <ActivityAccountButton refresh={refresh} />
+                <ActivityAccountButton refresh={refresh}/>
 
                 {/* 日历签到 */}
-                <CalendarSignButton handleRefresh={handleRefresh} />
+                <CalendarSignButton handleRefresh={handleRefresh}/>
             </div>
 
             {/* 中间的两个div元素 */}
             <div className="flex flex-col md:flex-row gap-4 mb-8">
                 <div className="w-full md:w-1/2 p-6 bg-white shadow-lg rounded-lg">
                     <div className="text-gray-700">
-                        <LuckyWheelPage />
+                        <LuckyWheelPage/>
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 p-6 bg-white shadow-lg rounded-lg">
                     <div className="text-gray-700">
-                        <LuckyGridPage handleRefresh={handleRefresh} />
+                        <LuckyGridPage handleRefresh={handleRefresh}/>
                     </div>
                 </div>
             </div>
 
             <div className="flex items-center space-x-4">
-                <StrategyRuleWeightButton refresh={refresh} />
+                <StrategyRuleWeightButton refresh={refresh}/>
             </div>
 
             {/* 底部文案 */}
-            <footer className="text-gray-600 text-center my-8" style={{ color: "white" }}>
-                OmenKi-SWJTU-LAB-2409 ||<a href='https://gaga.plus' target='_blank' style={{ color: "#0092ff" }}> https://github.com/OmenKiZhu/big_market ||</a> @OmenKi
+            <footer className="text-gray-600 text-center my-8" style={{color: "white"}}>
+                OmenKi-SWJTU-LAB-2409 ||<a href='https://github.com/OmenKiZhu/big_market' target='_blank'
+                                           style={{color: "#0092ff"}}> My Github
+                ||</a> @OmenKi
             </footer>
         </div>
     );
