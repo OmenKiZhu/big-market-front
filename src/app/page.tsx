@@ -180,7 +180,7 @@ export default function Home() {
 
             {/* 底部文案 */}
             <footer className="text-gray-600 text-center my-8" style={{color: "white"}}>
-                OmenKi-SWJTU-LAB-2409 ||<a href='https://github.com/OmenKiZhu/big_market' target='_blank'
+                OmenKi-SWJTU-LAB-2409 ||<a href='https://github.com/OmenKiZhu/big-market-front' target='_blank'
                                            style={{color: "#0092ff"}}> My Github
                 ||</a> @OmenKi
             </footer>
