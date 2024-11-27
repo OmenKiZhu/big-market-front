@@ -16,7 +16,7 @@ const StrategyRuleWeightButton = dynamic(async () => (await import("./components
 export default function Home() {
     const [refresh, setRefresh] = useState(0);
     const snowContainerRef = useRef<HTMLDivElement>(null);
-    const [snowflakes, setSnowflakes] = useState([]); // 声明状态变量和更新函数
+    const [snowflakes, setSnowflakes] = useState<HTMLDivElement[]>([]); // 声明状态变量和更新函数
     const [isPlaying, setIsPlaying] = useState(false); // 控制音乐播放状态
     const handleRefresh = () => {
         setRefresh(refresh + 1);
@@ -143,7 +143,7 @@ export default function Home() {
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    textFillColor: 'transparent'
+                    //textFillColor: 'transparent'
                 }}>
                     OmenKi - Raffle - BigMarket
                 </header>
