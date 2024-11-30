@@ -5,6 +5,7 @@ import { LuckyWheelPage } from "@/app/pages/lucky/lucky-wheel-page";
 import { LuckyGridPage } from "@/app/pages/lucky/lucky-grid-page";
 import dynamic from "next/dynamic";
 import './SnowEffect/music/music.css'
+import './styles/musicButton.css'
 
 
 
@@ -18,6 +19,8 @@ export default function Home() {
     const snowContainerRef = useRef<HTMLDivElement>(null);
     const [snowflakes, setSnowflakes] = useState<HTMLDivElement[]>([]); // 声明状态变量和更新函数
     const [isPlaying, setIsPlaying] = useState(false); // 控制音乐播放状态
+    const [progress, setProgress] = useState(0);
+
     const handleRefresh = () => {
         setRefresh(refresh + 1);
     };
@@ -108,7 +111,27 @@ export default function Home() {
         }
     }, []);
 
+    // 添加进度条点击处理函数
+    const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        const progressBar = e.currentTarget;
+        const rect = progressBar.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percentage = (x / rect.width) * 100;
+        
+        if (audioRef.current) {
+            const newTime = (percentage / 100) * audioRef.current.duration;
+            audioRef.current.currentTime = newTime;
+            setProgress(percentage);
+        }
+    };
 
+    // 添加音频进度更新处理函数
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+            setProgress(progress);
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#e7305e]"
@@ -119,10 +142,20 @@ export default function Home() {
             <div className="absolute right-4 top-4">
                 <button
                     onClick={handlePlayPause}
-                    className={`play-pause-button ${isPlaying ? 'bg-blue-500' : 'bg-white'}`}
+                    className={`christmas-music-btn ${isPlaying ? 'playing' : ''}`}
                 >
-                    {isPlaying ? 'Pause' : 'Play'} Music
+                    <span className="music-icon">🎵</span>
+                    <span className="christmas-icon">{isPlaying ? '🎄' : '🎅'}</span>
                 </button>
+                <div 
+                    className="music-progress-container"
+                    onClick={handleProgressClick}
+                >
+                    <div 
+                        className="music-progress-bar"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
             </div>
 
             {/* 音频元素 */}
@@ -131,7 +164,7 @@ export default function Home() {
                 src="/SantaTellMe.mp3"
                 autoPlay
                 loop
-                //muted
+                onTimeUpdate={handleTimeUpdate}
                 style={{ display: 'none' }}
             />
 
