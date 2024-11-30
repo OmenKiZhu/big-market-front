@@ -1,0 +1,128 @@
+.christmas-music-btn {
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 2px solid #ff8fa3;
+  background: linear-gradient(145deg, #ffa4b5, #ff8fa3);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(255, 143, 163, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.christmas-music-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 45%,
+    rgba(255, 255, 255, 0.6) 55%,
+    transparent 100%
+  );
+  transition: 0.75s ease;
+  z-index: -1;
+}
+
+.christmas-music-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(255, 143, 163, 0.6);
+  letter-spacing: 1px;
+}
+
+.christmas-music-btn:hover::before {
+  left: 100%;
+}
+
+.christmas-music-btn:hover .music-icon {
+  transform: scale(1.2) rotate(15deg);
+}
+
+.christmas-music-btn:hover .christmas-icon {
+  transform: scale(1.2) rotate(-15deg);
+}
+
+.music-icon {
+  font-size: 1.2em;
+  animation: bounce 2s infinite;
+  transition: transform 0.3s ease;
+}
+
+.christmas-icon {
+  font-size: 1.4em;
+  animation: wiggle 2s infinite;
+  transition: transform 0.3s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+
+/* 进度条样式 */
+.music-progress-container {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  margin-top: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: height 0.2s ease;
+}
+
+.music-progress-container:hover {
+  height: 6px;
+}
+
+.music-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8fa3, #ffa4b5);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+  position: relative;
+}
+
+.music-progress-bar::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.music-progress-container:hover .music-progress-bar::after {
+  opacity: 1;
+} 
